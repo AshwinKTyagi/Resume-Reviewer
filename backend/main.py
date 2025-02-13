@@ -1,8 +1,17 @@
 from fastapi import FastAPI, File, UploadFile
+from fastapi.middleware.cors import CORSMiddleware
 from extract import extract
 import os
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # @app.get("/")
 # def read_root():
@@ -14,7 +23,7 @@ def read_item(item_id: int, q: str = None):
 
 @app.post("/upload/")
 async def upload_resume(file: UploadFile = File(...)):
-    
+
     # Write the uploaded file's content to a temporary path
     file_ext = file.filename.split(".")[-1]
     temp_path = f"temp.{file_ext}"
@@ -28,6 +37,7 @@ async def upload_resume(file: UploadFile = File(...)):
     if not txt:
         return {"error": "Unsupported File Path"}
     else:
+        print("\tSuccesfully Extracted Text")
         return {"extracted_text": txt}
     
 
