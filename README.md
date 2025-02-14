@@ -1,9 +1,13 @@
 # Resume-Reviewer
 
-### Tech Stack
+### Tech Used
 
 Backend
 - FastAPI
+- pdfminer
+- OpenAI
+- Ollama
 
 Frontend
 - NextJS
+- TailwindCSS
