@@ -1,10 +1,12 @@
-import { useState } from "react"
+import React, { useState } from "react"
 import axios from "axios"
 import { useDropzone } from "react-dropzone"
+import ReactMarkdown from "react-markdown"
+import remarkGfm from "remark-gfm"
 
 export default function Home() {
-    const[resumeText, setResumeText] = useState(""); // State to store extracted resume text
-
+    const[resumeText, setResumeText] = useState("");
+    const[resumeFeedback, setResumeFeedback] = useState("");
     const { getRootProps, getInputProps } = useDropzone({
         accept: {
             "application/pdf": [".pdf"],
@@ -21,6 +23,7 @@ export default function Home() {
                     headers: { "Content-Type": "multipart/form-data" },
                 });
                 setResumeText(response.data.extracted_text); // Set extracted text to state
+                setResumeFeedback(response.data.llm_feedback); // Set feedback from LLM to state
             } catch (error) {
                 console.error("Error uploading file:", error); // Handle error
             }
@@ -35,13 +38,22 @@ export default function Home() {
                     <input {...getInputProps()} />
                     <p>Drag and Drop your resume, or click to select a file.</p>
                 </div>
-                {resumeText && (
-                    <div className="mt-4 p-4 bg-gray-200 rounded">
-                        <h3 className="font-bold">Extracted Text:</h3>
-                        <p className="text-sm overflow-auto max-h-40">{resumeText}</p>
-                    </div>
-                )}
+                
             </div>
+            {resumeText && (
+                <div className="mt-4 p-4 bg-gray-200 rounded">
+                    <h3 className="text-xl font-bold">Extracted Text</h3>
+                    <pre className="text-sm overflow-auto max-h-40">{resumeText}</pre>
+                </div>
+            )}
+            {resumeFeedback && (
+                <div className="mt-4 p-4 bg-gray-200 w-screen rounded">
+                    <h3 className="text-xl font-bold mb-4">Feedback from LLM</h3>
+                    <ReactMarkdown className="prose prose-lg" remarkPlugins={[remarkGfm]}>
+                        {resumeFeedback}
+                    </ReactMarkdown>
+                </div>
+            )}
         </div>
     );
 }
