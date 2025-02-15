@@ -1,21 +1,21 @@
 # Resume-Reviewer
 
-### Tech Stack
+## Tech Stack
 
-Backend
+**Backend**
 - FastAPI
 - pdfminer
 - python-docx
 - OpenAI API
 - LLAMA
 
-Frontend
+**Frontend**
 - NextJS
 - TailwindCSS
 - React Dropzone
 - React Markdown
 
-### Overview
+## Overview
 
 This project allows users to upload their resumes in PDF or DOCX format. The backend extracts the text from the uploaded resume and processes it using a language model to provide feedback.
 
@@ -44,10 +44,11 @@ This project allows users to upload their resumes in PDF or DOCX format. The bac
 #### `index.js`
 - React component to handle file uploads and display extracted text and feedback.
 - Uses `react-dropzone` for file drag-and-drop functionality.
+- Allows users to select between OpenAI and LLAMA models for feedback.
 - Sends the uploaded file to the backend for text extraction and feedback.
 - Displays the extracted text and feedback in a formatted manner.
 
-### Installation and Setup
+## Installation and Setup
 
 #### Prerequisites
 - Python 3.8+
