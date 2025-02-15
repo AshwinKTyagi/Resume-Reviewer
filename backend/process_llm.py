@@ -82,7 +82,7 @@ def __process_with_openai(extracted_text):
 
 # Main function to process resume text based on the selected option (LLAMA or OpenAI)
 def process(extracted_text, option):
-    if option == "llama":
+    if option == "ollama":
         return __process_with_llama(extracted_text)
     elif option == "openai":
         return __process_with_openai(extracted_text)

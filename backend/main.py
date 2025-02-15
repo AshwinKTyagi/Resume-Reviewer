@@ -1,4 +1,5 @@
-from fastapi import FastAPI, File, UploadFile, HTTPException
+from typing import Optional
+from fastapi import FastAPI, File, UploadFile, HTTPException, Form
 from fastapi.middleware.cors import CORSMiddleware
 import extract_from_file
 import process_llm 
@@ -23,7 +24,7 @@ def read_item(item_id: int, q: str = None):
     return {"item_id": item_id, "q": q}
 
 @app.post("/upload/")
-async def upload_resume(file: UploadFile = File(...)):
+async def upload_resume(file: UploadFile = File(...), modelOption: Optional[str] = Form("openai")):
 
     # Write the uploaded file's content to a temporary path
     file_ext = file.filename.split(".")[-1]
@@ -40,8 +41,9 @@ async def upload_resume(file: UploadFile = File(...)):
     if not txt:
         raise HTTPException(status_code=400, detail="Unsupported file type")
     
-    llm_feedback = process_llm.process(txt, option="openai")
-    
+    print(modelOption)
+    llm_feedback = process_llm.process(txt, option=modelOption)
+    print("extracted w feedback")
     return {"extracted_text": txt, "llm_feedback": llm_feedback}
     
 
