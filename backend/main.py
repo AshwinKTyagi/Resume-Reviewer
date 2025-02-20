@@ -1,11 +1,13 @@
 from typing import Optional
 from fastapi import FastAPI, File, UploadFile, HTTPException, Form
 from fastapi.middleware.cors import CORSMiddleware
-import extract_from_file
-import process_llm 
+from upload_resume import extract_from_file
+from upload_resume import process_llm 
+from auth.auth_routes import auth_router
 import os
 
 app = FastAPI()
+app.include_router(auth_router, prefix="/api/auth/")
 
 app.add_middleware(
     CORSMiddleware,
