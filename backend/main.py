@@ -7,7 +7,7 @@ from auth.auth_routes import auth_router
 import os
 
 app = FastAPI()
-app.include_router(auth_router, prefix="/api/auth/")
+app.include_router(auth_router, prefix="/auth")
 
 app.add_middleware(
     CORSMiddleware,
@@ -17,9 +17,9 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# @app.get("/")
-# def read_root():
-#     return {"message": "Welcome to the Resume Reviewer API"}
+@app.get("/")
+def read_root():
+    return {"message": "Welcome to the Resume Reviewer API"}
 
 @app.get("/items/{item_id}")
 def read_item(item_id: int, q: str = None):
@@ -47,5 +47,5 @@ async def upload_resume(file: UploadFile = File(...), modelOption: Optional[str]
     llm_feedback = process_llm.process(txt, option=modelOption)
     print("extracted w feedback")
     return {"extracted_text": txt, "llm_feedback": llm_feedback}
-    
+
 

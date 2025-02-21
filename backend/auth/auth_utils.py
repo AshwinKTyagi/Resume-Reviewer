@@ -1,7 +1,7 @@
 from passlib.context import CryptContext
 import jwt
 import datetime
-from config import JWT_SECRET
+from .config_mongo import JWT_SECRET
 
 # Initialize the password context with bcrypt algorithm
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
@@ -18,7 +18,7 @@ def verify_password(plain_password: str, hashed_password: str) -> bool:
 def create_jwt_token(user_id: str) -> str:
     to_encode = {
         "sub": user_id,
-        "exp": datetime.datetime.now(tz="utc") + datetime.timedelta(days=1)
+        "exp": datetime.datetime.now(tz=datetime.timezone.utc) + datetime.timedelta(days=1)
     }
     
     encoded_jwt = jwt.encode(to_encode, JWT_SECRET, algorithm="HS256")
