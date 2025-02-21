@@ -13,6 +13,7 @@ export const login = async (userData) => {
     if (response.data.access_token) {
         localStorage.setItem("token", response.data.access_token);
         localStorage.setItem("username", response.data.user.username);
+        localStorage.setItem("userId", response.data.user.user_id);
     }
     return response.data;
 }
@@ -21,10 +22,3 @@ export const logout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("username");
 }
-
-export const getProtectedData = async () => {
-    const token = localStorage.getItem("token");
-    return await axios.get("api/auth/protected", {
-        headers: { Authorization: `Bearer ${token}` },
-    });
-};

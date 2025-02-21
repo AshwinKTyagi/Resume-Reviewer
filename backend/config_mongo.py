@@ -14,3 +14,5 @@ client = MongoClient(MONGO_URI)
 # Get the database and collection
 db = client.get_database("resume_reviewer")
 users_collection = db.get_collection("auth_collection")
+resume_collection = db.get_collection("resume_collection")
+

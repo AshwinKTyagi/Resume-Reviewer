@@ -1,7 +1,7 @@
 from passlib.context import CryptContext
 import jwt
 import datetime
-from .config_mongo import JWT_SECRET
+from config_mongo import JWT_SECRET
 
 # Initialize the password context with bcrypt algorithm
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")

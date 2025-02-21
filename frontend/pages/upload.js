@@ -31,8 +31,13 @@ const Upload = () => {
         onDrop: async (acceptedFiles) => {
             console.log(acceptedFiles[0].type);
             const formData = new FormData();
+            const userId = localStorage.getItem("userId");
+            
             formData.append("file", acceptedFiles[0]);
-            formData.append("modelOption", modelOption)
+            formData.append("modelOption", modelOption);
+            if (userId) {
+                formData.append("userId", userId);
+            }
 
             try {
                 // Send file to backend for extraction
@@ -90,7 +95,7 @@ const Upload = () => {
                     </div>
                 )}
                 {resumeFeedback && (
-                    <div className="mt-4 p-4 bg-gray-200 w-screen rounded">
+                    <div className="mt-4 p-4 bg-gray-200 w-3/4 rounded">
                         <h3 className="text-xl font-bold mb-4">Feedback from LLM</h3>
                         <ReactMarkdown className="prose prose-lg" remarkPlugins={[remarkGfm]}>
                             {resumeFeedback}

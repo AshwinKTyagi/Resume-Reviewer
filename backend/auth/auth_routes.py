@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException, Depends
 from pydantic import BaseModel
-from .config_mongo import users_collection
+from config_mongo import users_collection
 from . import auth_utils
 
 auth_router = APIRouter()
@@ -56,13 +56,12 @@ async def login(user: UserLogin):
     token = auth_utils.create_jwt_token(str(db_user["_id"]))
     
     # Return the access token and user information
-    return {"access_token": token, "user": {"username": db_user["username"], "email": db_user["email"]}}
+    return {"access_token": token, "user": {"user_id": str(db_user["_id"]), "username": db_user["username"], "email": db_user["email"]}}
 
-# Protected route that requires a valid JWT token
-@auth_router.get("/protected/")
-async def protected_route(token: str = Depends(auth_utils.verify_jwt)):
-    # Check if the token is valid
-    if not token:
-        raise HTTPException(status_code=403, detail="Invalid or expired token")
-    return {"message": "You have access!", "user_id": token}
+# Sample protected route that requires a valid JWT token
+# @auth_router.get("/protected/")
+# async def protected_route(token: str = Depends(auth_utils.verify_jwt)):
+#     if not token:
+#         raise HTTPException(status_code=403, detail="Invalid or expired token")
+#     return {"message": "You have access!", "user_id": token}
 
