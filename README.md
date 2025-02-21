@@ -8,6 +8,9 @@
 - python-docx
 - OpenAI API
 - LLAMA
+- MongoDB
+- FastAPI JWT Auth
+- Python Dotenv
 
 **Frontend**
 - NextJS
@@ -39,14 +42,48 @@ This project allows users to upload their resumes in PDF or DOCX format. The bac
 - FastAPI application to handle file uploads and text extraction.
 - `upload_resume(file: UploadFile)`: Endpoint to upload a resume, extract text, and get feedback from the language model.
 
+#### `auth/config_mongo.py`
+- Configuration for MongoDB connection and JWT secret.
+
+#### `auth/auth_utils.py`
+- Utility functions for password hashing, JWT creation, and verification.
+  - `hash_password(password: str) -> str`: Hashes a plain text password using bcrypt.
+  - `verify_password(plain_password: str, hashed_password: str) -> bool`: Verifies a plain text password against a hashed password.
+  - `create_jwt_token(user_id: str) -> str`: Creates a JWT token with the user ID and an expiration time of 1 day.
+  - `verify_jwt(token: str) -> dict`: Verifies a JWT token and returns the decoded token if valid, otherwise raises an error.
+
+#### `auth/auth_routes.py`
+- FastAPI routes for user registration, login, and protected routes.
+  - `root()`: A simple root endpoint for the authentication service.
+  - `register(user: UserRegister)`: Registers a new user by hashing their password and storing their details in the database.
+  - `login(user: UserLogin)`: Logs in a user by verifying their email and password, and returns a JWT token if successful.
+  - `protected_route(token: str = Depends(auth_utils.verify_jwt))`: A protected route that requires a valid JWT token to access.
+
 ### Frontend
 
-#### `index.js`
+#### `upload.js`
 - React component to handle file uploads and display extracted text and feedback.
 - Uses `react-dropzone` for file drag-and-drop functionality.
 - Allows users to select between OpenAI and LLAMA models for feedback.
 - Sends the uploaded file to the backend for text extraction and feedback.
 - Displays the extracted text and feedback in a formatted manner.
+
+#### `login.js`
+- React component to handle user login and registration.
+- Allows users to register a new account or log in to an existing account.
+- Uses context to manage authentication state.
+
+#### `index.js`
+- React component for the home page.
+- Provides links to the login and upload pages.
+
+#### `context/AuthContext.js`
+- Context provider for managing authentication state.
+- Provides functions for logging in and logging out.
+
+#### `components/layout.js`
+- Layout component for wrapping pages with a consistent header and footer.
+- Displays navigation links and user information.
 
 ## Installation and Setup
 
@@ -74,6 +111,8 @@ This project allows users to upload their resumes in PDF or DOCX format. The bac
     ```sh
     OPENAI_API_KEY='your_openai_api_key'
     LLAMA_SERVER='http://your-llama-server:11434'
+    MONGO_URI='your_mongo_uri'
+    JWT_SECRET='your_jwt_secret'
     ```
 5. Run the FastAPI server:
     ```sh
