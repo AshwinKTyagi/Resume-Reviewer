@@ -43,10 +43,14 @@ async def login(user: UserLogin):
         raise HTTPException(status_code=401, detail="Invalid email or password")
     
     token = auth_utils.create_jwt_token(str(db_user["_id"]))
-    return {"access_token": token, "user": {"username": db_user["username"], "email": db_user["email"]}}
+    
+    user =  {"access_token": token, "user": {"username": db_user["username"], "email": db_user["email"]}}
+    print(user)
+    return user
 
 @auth_router.get("/protected/")
 async def protected_route(token: str = Depends(auth_utils.verify_jwt)):
     if not token:
         raise HTTPException(status_code=403, detail="Invalid or expired token")
     return {"message": "You have access!", "user_id": token}
+
