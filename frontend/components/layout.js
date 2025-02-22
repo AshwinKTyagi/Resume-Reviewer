@@ -22,6 +22,9 @@ const Layout = ({ children }) => {
                             <li className="border-l border-gray-300 h-6 mx-2"></li>
                             {user ? (
                                 <>
+                                    <li>
+                                        <a href="/resume_list" className="text-gray-700 hover:text-blue-500">My Resumes</a>
+                                    </li>
                                     <li className="text-gray-700">Welcome, <strong>{user}</strong></li>
                                     <li>
                                         <button
