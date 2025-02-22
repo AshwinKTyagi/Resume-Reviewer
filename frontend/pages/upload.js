@@ -41,7 +41,7 @@ const Upload = () => {
 
             try {
                 // Send file to backend for extraction
-                const response = await axios.post("api/upload/", formData, {
+                const response = await axios.post("api/resumes/upload", formData, {
                     headers: { "Content-Type": "multipart/form-data" },
                 });
                 setResumeText(response.data.extracted_text); // Set extracted text to state

@@ -7,10 +7,12 @@ const Layout = ({ children }) => {
     return (
         <div>
             <header className="bg-white shadow-md">
-                <div className="container mx-auto flex items-center justify-between p-4">
-                    <h1 className="text-3xl font-bold text-gray-900">Resume Reviewer</h1>
-                    <nav>
-                        <ul className="flex space-x-6 items-center">
+                <div className="mx-auto flex items-center justify-between p-4">
+                    <h1 className="text-3xl font-bold text-gray-900 flex-grow-0">
+                        <a href="/" className="hover:text-blue-500">Resume Reviewer</a>
+                    </h1>
+                    <nav className="flex-grow">
+                        <ul className="flex justify-end space-x-6 items-center">
                             <li>
                                 <a href="/" className="text-gray-700 hover:text-blue-500">Home</a>
                             </li>
