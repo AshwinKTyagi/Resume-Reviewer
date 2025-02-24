@@ -10,6 +10,11 @@ load_dotenv()
 LLAMA_SERVER = os.getenv("LLAMA_SERVER", "http://localhost:11434")
 OPEN_API_KEY = os.getenv("OPENAI_API_KEY")
 
+prompt = ("You are a professional resume reviewer. "
+        "Analyze the following resume text and provide feedback on the candidate's strengths, weaknesses, "
+        "and suggestions for improvement. Focus on the clarity, relevance, and impact of the information provided. "
+        "Also, highlight any grammatical errors. Here is the resume text:\n\n")
+
 # Function to test connection to the LLAMA server
 def __test_llama_connection():
     try:
@@ -38,11 +43,8 @@ def __process_with_llama(extracted_text: str):
         return "Error: Unable to connect to llama server."
 
     # Create a prompt for the LLAMA server
-    prompt = (
-        "You are a professional resume reviewer. "
-        "Analyze the following resume text and provide feedback on the candidate's strengths, weaknesses, "
-        "and suggestions for improvement. Focus on the clarity, relevance, and impact of the information provided. "
-        "Also, highlight any grammatical errors. Here is the resume text:\n\n"
+    llama_prompt = (
+        f"{prompt}"
         f"{extracted_text}"
     )
 
@@ -50,7 +52,7 @@ def __process_with_llama(extracted_text: str):
         # Send a POST request to the LLAMA server with the prompt
         response = requests.post(f"{LLAMA_SERVER}/api/generate", json={
             "model": "llama3.1:latest",
-            "prompt": f"{prompt}"
+            "prompt": f"{llama_prompt}"
         })
         return response.json().get("response", "No response from llama.")
     except Exception as e:
@@ -70,9 +72,7 @@ def __process_with_openai(extracted_text):
         response = client.chat.completions.create(
             model="gpt-3.5-turbo",
             messages=[
-                {"role": "system", "content": ("You are a professional resume reviewer. Analyze the following resume text and provide feedback on the candidate's strengths, weaknesses, "
-                                            "and suggestions for improvement. Focus on the clarity, relevance, and impact of the information provided. Correct grammar when applicable"
-                                            "Also, format your response in Markdown. ")},
+                {"role": "system", "content": prompt},
                 {"role": "user", "content": extracted_text}
             ]
         )
