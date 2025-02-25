@@ -13,6 +13,7 @@ OPEN_API_KEY = os.getenv("OPENAI_API_KEY")
 prompt = ("You are a professional resume reviewer. "
         "Analyze the following resume text and provide feedback on the candidate's strengths, weaknesses, "
         "and suggestions for improvement. Focus on the clarity, relevance, and impact of the information provided. "
+        "Ignore formatting issues."
         "Also, highlight any grammatical errors. Here is the resume text:\n\n")
 
 # Function to test connection to the LLAMA server
