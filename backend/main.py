@@ -1,9 +1,6 @@
 from typing import Optional
-from fastapi import FastAPI, File, UploadFile, HTTPException, Form, Depends
+from fastapi import FastAPI, File, Form, Depends
 from fastapi.middleware.cors import CORSMiddleware
-from upload_resume import extract_from_file
-from upload_resume import process_llm 
-from upload_resume import resume_repository
 from upload_resume.resume_routes import resume_router
 from auth.auth_routes import auth_router
 import os

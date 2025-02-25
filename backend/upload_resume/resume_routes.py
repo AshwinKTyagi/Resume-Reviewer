@@ -22,7 +22,7 @@ def get_all_resumes(user_id: Optional[str] = Query(None)):
 def get_resume(user_id: str = Form(...), file_id: str = Form(...)):
 
     try:
-        resume_text, resume_feedback = resume_repository.get_resume(user_id, file_id)
+        resume_text, resume_feedback = resume_repository.get_resume(file_id)
         
         return {"extracted_text": resume_text, "llm_feedback": resume_feedback}
     except Exception as e:

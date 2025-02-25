@@ -42,7 +42,7 @@ def get_user_resumes(user_id: str):
     resumes = resume_collection.find({"user_id": user_id})
     return [{"id": str(resume["_id"]), "file_id": str(resume["file_id"]), "file_name": resume["file_name"], "created_at": resume["created_at"]} for resume in resumes]
     
-def get_resume(user_id: str, file_id: str):
+def get_resume(file_id: str):
     query = {
         "_id": ObjectId(file_id)
     }

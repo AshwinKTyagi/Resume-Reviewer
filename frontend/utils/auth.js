@@ -21,4 +21,5 @@ export const login = async (userData) => {
 export const logout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("username");
+    localStorage.removeItem("userId");
 }
