@@ -1,7 +1,7 @@
 import pdfminer.high_level
 from docx import Document
 import numpy as np
-from langchain.embeddings import OpenAIEmbeddings
+from langchain_community.embeddings import OpenAIEmbeddings
 
 # Extract text from a PDF file
 def __from_pdf(fp):
