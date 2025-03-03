@@ -10,7 +10,7 @@ load_dotenv()
 LLAMA_SERVER = os.getenv("LLAMA_SERVER", "http://localhost:11434")
 OPEN_API_KEY = os.getenv("OPENAI_API_KEY")
 
-prompt = ("You are a professional resume reviewer. "
+base_prompt = ("You are a professional resume reviewer. "
         "Analyze the following resume text and provide feedback on the candidate's strengths, weaknesses, "
         "and suggestions for improvement. Focus on the clarity, relevance, and impact of the information provided. "
         "Ignore formatting issues."
@@ -39,7 +39,7 @@ def __test_openai_connection(client):
     return False
 
 # Function to process resume text using the LLAMA server
-def __process_with_llama(extracted_text: str):
+def __process_with_llama(extracted_text: str, prompt: str):
     if not __test_llama_connection():
         return "Error: Unable to connect to llama server."
 
@@ -60,7 +60,7 @@ def __process_with_llama(extracted_text: str):
         return f"Error processing resume: {str(e)}"
 
 # Function to process resume text using the OpenAI API
-def __process_with_openai(extracted_text):
+def __process_with_openai(extracted_text: str, prompt: str):
 
     try:
         # Initialize the OpenAI client
@@ -82,8 +82,10 @@ def __process_with_openai(extracted_text):
         return f"Error processing resume: {str(e)}"
 
 # Main function to process resume text based on the selected option (LLAMA or OpenAI)
-def process(extracted_text, option):
+def process(extracted_text: str, option: str, prompt: str = base_prompt):
     if option == "ollama":
-        return __process_with_llama(extracted_text)
+        return __process_with_llama(extracted_text, prompt)
     elif option == "openai":
-        return __process_with_openai(extracted_text)
+        return __process_with_openai(extracted_text, prompt)
+    
+    

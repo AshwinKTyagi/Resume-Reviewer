@@ -1,7 +1,7 @@
 from typing import Optional
 from fastapi import APIRouter, File, UploadFile, HTTPException, Query, Form
 from fastapi.responses import FileResponse
-from . import resume_repository, extract_from_file, process_llm
+from . import file_processing, resume_repository, process_llm
 import os
 
 resume_router = APIRouter()
@@ -42,7 +42,7 @@ async def upload_resume(file: UploadFile = File(...), modelOption: Optional[str]
         f.write(file_bytes)
 
     # Extract information from file
-    txt = extract_from_file.extract(temp_path, file_ext)    
+    txt = file_processing.extract(temp_path, file_ext)    
     os.remove(temp_path)
 
     # If invalid filetype, raise an error
@@ -51,14 +51,15 @@ async def upload_resume(file: UploadFile = File(...), modelOption: Optional[str]
 
     # If user is provided, check if a document exists
     if userId:
-        resume_feedback = resume_repository.get_resume_feedback(userId, original_filename, txt)
+        _, resume_feedback = resume_repository.get_resume(userId, original_filename, txt)
         if resume_feedback:
             return {"extracted_text": txt, "llm_feedback": resume_feedback}
     
     llm_feedback = process_llm.process(txt, option=modelOption)
 
-    # Save data
+    # create embedding and save data
     if userId:
+        
         resume_repository.save_resume_feedback(userId, original_filename, txt, llm_feedback, file_bytes)
 
     return {"extracted_text": txt, "llm_feedback": llm_feedback}
