@@ -11,6 +11,7 @@
 - MongoDB
 - FastAPI JWT Auth
 - Python Dotenv
+- LangChain Community Embeddings
 
 **Frontend**
 - NextJS
@@ -34,33 +35,33 @@ This project allows users to upload their resumes in PDF or DOCX format. The bac
 #### `config_mongo.py`
 - Configuration for MongoDB connection and JWT secret.
 
-#### `upload_resume/extract_from_file.py`
-- Contains functions to extract text from PDF and DOCX files.
-    - `__from_pdf(fp)`: Extracts text from a PDF file.
-    - `__from_docx(fp)`: Extracts text from a DOCX file.
-    - `extract(file_path, file_ext)`: Main method to extract text based on file extension.
+#### `upload_resume/file_processing.py`
+- Contains functions to handle file uploads and text extraction.
+    - `process_pdf(file)`: Extracts text from an uploaded PDF file.
+    - `process_docx(file)`: Extracts text from an uploaded DOCX file.
+    - `process_file(file)`: Determines the file type and extracts text accordingly.
+    - `generate_embeddings(text)`: Generates embeddings for the extracted text using a language model.
 
 #### `upload_resume/process_llm.py`
 - Contains functions to process the extracted text using LLAMA or OpenAI.
     - `__test_llama_connection()`: Tests connection to the LLAMA server.
     - `__test_openai_connection(client)`: Tests connection to the OpenAI API.
-    - `__process_with_llama(extracted_text)`: Processes text using the LLAMA server.
-    - `__process_with_openai(extracted_text)`: Processes text using the OpenAI API.
-    - `process(extracted_text, option)`: Main method to process text based on the selected option (LLAMA or OpenAI).
+    - `__process_with_llama(extracted_text, prompt)`: Processes text using the LLAMA server.
+    - `__process_with_openai(extracted_text, prompt)`: Processes text using the OpenAI API.
+    - `process(extracted_text, option, prompt)`: Main method to process text based on the selected option (LLAMA or OpenAI).
 
 #### `upload_resume/resume_repository.py`
 - Contains functions to interact with the MongoDB database for resume storage and retrieval.
     - `get_user_resumes(user_id)`: Retrieves all resumes for a specific user.
-    - `get_resume_file(file_id)`: Retrieves the file content and name for a specific resume.
     - `get_resume(file_id)`: Retrieves the extracted text and feedback for a specific resume.
-    - `save_resume_feedback(user_id, filename, extracted_text, feedback, file_bytes)`: Saves the resume feedback to the database.
-    - `get_resume_feedback(user_id, filename, extracted_text)`: Retrieves the feedback for a specific resume if it exists.
+    - `save_resume_feedback(user_id, filename, extracted_text, feedback, file_bytes, embedding)`: Saves the resume feedback and embedding to the database.
+    - `get_resume_embedding(file_id)`: Retrieves the embedding for a specific resume if it exists.
 
 #### `upload_resume/resume_routes.py`
 - FastAPI routes for handling resume uploads, retrieval, and feedback.
     - `get_all_resumes(user_id: Optional[str])`: Retrieves all resumes for a specific user.
     - `get_resume(user_id: str, file_id: str)`: Retrieves the extracted text and feedback for a specific resume.
-    - `upload_resume(file: UploadFile, modelOption: Optional[str], userId: Optional[str])`: Uploads a resume, extracts text, and gets feedback from the language model.
+    - `upload_resume(file: UploadFile, modelOption: Optional[str], userId: Optional[str])`: Uploads a resume, extracts text, generates embeddings, and gets feedback from the language model.
 
 #### `auth/auth_utils.py`
 - Utility functions for password hashing, JWT creation, and verification.
