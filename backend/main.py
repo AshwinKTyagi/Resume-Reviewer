@@ -1,11 +1,13 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from upload_resume.resume_routes import resume_router
+from upload_resume.chat_routes import chat_router
 from auth.auth_routes import auth_router
 
 app = FastAPI()
 app.include_router(auth_router, prefix="/auth")
 app.include_router(resume_router, prefix="/resumes", tags=["Resumes"])
+app.include_router(chat_router, prefix="/chat", tags=["Chat"])
 
 app.add_middleware(
     CORSMiddleware,

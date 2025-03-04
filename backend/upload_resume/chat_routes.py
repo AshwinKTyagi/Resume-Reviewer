@@ -5,7 +5,7 @@ from . import resume_repository, process_llm, file_processing
 
 chat_router = APIRouter()
 
-@chat_router.post("/chat")
+@chat_router.post("/")
 async def chat(file_id: str, message: str, model: str = "openai"):
     try:
         resume_text, _ = resume_repository.get_resume(file_id)
@@ -27,7 +27,7 @@ async def chat(file_id: str, message: str, model: str = "openai"):
         raise HTTPException(status_code=500, detail=str(e))
     
     
-@chat_router.get("similar-resumes")
+@chat_router.get("/similar-resumes")
 async def get_similar_resumes(user_id: str, query: str):
     try:
         query_embedding = file_processing.generate_embeddings(query)
