@@ -3,6 +3,7 @@ import axios from "axios"
 import { useDropzone } from "react-dropzone"
 import ReactMarkdown from "react-markdown"
 import remarkGfm from "remark-gfm"
+import remarkBreaks from "remark-breaks"
 import Layout from "../components/layout"
 
 const Upload = () => {
@@ -95,9 +96,8 @@ const Upload = () => {
                     </div>
                 )}
                 {resumeFeedback && (
-                    <div className="mt-4 p-4 bg-gray-200 w-3/4 rounded">
-                        <h3 className="text-xl font-bold mb-4">Feedback from LLM</h3>
-                        <ReactMarkdown className="prose prose-lg" remarkPlugins={[remarkGfm]}>
+                    <div className="mt-4 p-4 bg-gray-200 w-3/4 rounded overflow-auto">
+                        <ReactMarkdown className="prose prose-lg" remarkPlugins={[remarkGfm, remarkBreaks]}>
                             {resumeFeedback}
                         </ReactMarkdown>
                     </div>

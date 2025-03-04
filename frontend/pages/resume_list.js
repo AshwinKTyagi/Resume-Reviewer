@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useRouter } from "next/router";
 import ReactMarkdown from "react-markdown"
 import remarkGfm from "remark-gfm"
+import remarkBreaks from 'remark-breaks';
 import Layout from '../components/layout';
 import Chat from '../components/chat';
+
 
 const ResumeList = () => {
     const [resumes, setResumes] = useState([]);
@@ -84,7 +85,7 @@ const ResumeList = () => {
                         {resumeFeedback ? (
                             <div className="mt-4 p-4 bg-gray-200 rounded">
                                 <h3 className="text-xl font-bold mb-4">Feedback from LLM</h3>
-                                <ReactMarkdown className="prose prose-lg" remarkPlugins={[remarkGfm]}>
+                                <ReactMarkdown className="prose prose-lg" remarkPlugins={[remarkBreaks, remarkGfm]}>
                                     {resumeFeedback}
                                 </ReactMarkdown>
                             </div>
