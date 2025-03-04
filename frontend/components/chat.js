@@ -1,4 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import ReactMarkdown from 'react-markdown';
+import remarkBreaks from 'remark-breaks';
+import remarkGfm from 'remark-gfm';
 import axios from 'axios';
 
 const Chat = ({ resumeText }) => {
@@ -7,7 +10,7 @@ const Chat = ({ resumeText }) => {
 
     useEffect(() => {
         if (resumeText) {
-            setMessages((prev) => [{ type: "bot", text: "Hello! How can I help you today?" }]);
+            setMessages((prev) => [{...prev, type: "bot", text: "Hello! How can I help you today?" }]);
         }
     }, [resumeText]);
 
@@ -32,34 +35,38 @@ const Chat = ({ resumeText }) => {
     }
 
     return (
-        <div className='flex-col p-4 bg-gray-100 h-1/2 overflow-auto'>
-            <h2 className='text-lg font-bold mb-2'>Chat with Your Document</h2>
+        <div className='flex flex-col p-4 bg-gray-100 h-full w-1/4 shadow-md'>
+            <h2 className='text-lg font-bold  flex-shrink-0'>Chat with Your Document</h2>
+            <hr className='my-2 border-1' />
 
-            <div className='overflow-y-auto border p-1'>
+            <div className='flex-grow overflow-y-auto bg-gray-300 border p-2 rounded'>
                 {messages.map((message, index) => (
                     <div
                         key={index}
-                        className={`p-2 my-1 rounded ${message.type === 'user' ? 'bg-blue-200 text-right' : 'bg-gray-200 text-left'
+                        className={`p-2 my-1 rounded ${message.type === 'user' ? 'bg-blue-100 text-right' : 'bg-gray-200 text-left'
                             }`}
                     >
-                        {message.text}
+                        {message.type === 'bot' ? (
+                            <ReactMarkdown className="prose">{message.text}</ReactMarkdown>
+                        ) : (
+                            message.text
+                        )}
                     </div>
                 ))}
-
-                <div className='flex'>
-                    <input
-                        type='text'
-                        value={question}
-                        onChange={(e) => setQuestion(e.target.value)}
-                        className='border p-2 flex-1'
-                    />
-                    <button
-                        onClick={handleChat}
-                        className='bg-blue-500 text-white p-2 ml-2 rounded'
-                    >
-                        Send
-                    </button>
-                </div>
+            </div>
+            <div className='flex flex-shrink-0 border p-1'>
+                <input
+                    type='text'
+                    value={question}
+                    onChange={(e) => setQuestion(e.target.value)}
+                    className='border p-2 flex-1'
+                />
+                <button
+                    onClick={handleChat}
+                    className='bg-blue-500 text-white p-1 px-4 ml-2 rounded'
+                >
+                    Send
+                </button>
             </div>
         </div>
     );

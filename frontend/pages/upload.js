@@ -55,7 +55,7 @@ const Upload = () => {
 
     return (
         <Layout>
-            <div className="h-full flex flex-col items-center justify-center bg-gray-100 p-4">
+            <div className="h-full flex flex-col items-center justify-center bg-gray-100 p-4 overflow-auto">
                 <div className="p-6 bg-white rounded-lg shadow-lg w-96 text-center">
                     <h2 className="text-xl font-bold mb-4">Upload Your Resume</h2>
                     <div {...getRootProps()} className="border-2 border-dashed p-6 cursor-pointer mb-6">
@@ -96,7 +96,7 @@ const Upload = () => {
                     </div>
                 )}
                 {resumeFeedback && (
-                    <div className="mt-4 p-4 bg-gray-200 w-3/4 rounded overflow-auto">
+                    <div className="mt-4 p-4 bg-gray-200 w-3/4 rounded">
                         <ReactMarkdown className="prose prose-lg" remarkPlugins={[remarkGfm, remarkBreaks]}>
                             {resumeFeedback}
                         </ReactMarkdown>

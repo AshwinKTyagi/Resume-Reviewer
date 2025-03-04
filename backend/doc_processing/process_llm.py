@@ -14,7 +14,7 @@ base_prompt = ("You are a professional resume reviewer. "
         "Analyze the following resume text and provide feedback on the candidate's strengths, weaknesses, "
         "and suggestions for improvement. Focus on the clarity, relevance, and impact of the information provided. "
         "Ensure your feedback is in raw markdown format, with correct bullet points and formatting."
-        "Ignore formatting issues."
+        "Ignore formatting issues and be succinct in your feedback. "
         "Also, highlight any grammatical errors. Here is the resume text:\n\n")
 
 # Function to test connection to the LLAMA server
@@ -78,7 +78,6 @@ def __process_with_openai(extracted_text: str, prompt: str):
                 {"role": "user", "content": extracted_text}
             ]
         )
-        print(response.choices[0].message.content)
         return response.choices[0].message.content
     except Exception as e:
         return f"Error processing resume: {str(e)}"

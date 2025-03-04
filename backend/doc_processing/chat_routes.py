@@ -13,8 +13,10 @@ async def chat(resume_text: str = Form(...), message: str = Form(...), model: st
         
         prompt = f"""
             You are a professional recruiter reviewing a resume. Have your feedback be succinct and constructive.
-            When asked to give feedback, you should provide a response that uses short bullet points
-            Do not make up information that is not in the resume. 
+            When asked to give feedback, you should provide a response that uses short bullet points.
+            Give some concrete examples of your feedback.
+            You can make up some information if you need to, but make sure you let the user know that you are giving an example.
+            Ensure your feedback is in raw markdown format, with correct bullet points and formatting.
             If you are unsure about something, you can say that you are unsure.
             The resume is as follows:
             Resume: {resume_text}

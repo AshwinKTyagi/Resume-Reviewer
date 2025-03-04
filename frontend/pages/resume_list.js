@@ -67,7 +67,7 @@ const ResumeList = () => {
                             {resumes.map((resume) => (
                                 <li
                                     key={resume.id}
-                                    className={`p-2 cursor-pointer ${selectedResume?.id === resume.id ? "bg-blue-200" : "hover:bg-gray-200"
+                                    className={`p-2 cursor-pointer ${selectedResume?.id === resume.id ? "bg-blue-100" : "hover:bg-gray-200"
                                         }`}
                                     onClick={() => handleSelectResume(resume)}
                                 >
@@ -79,9 +79,9 @@ const ResumeList = () => {
                         <p className="text-center text-gray-500">No resumes found.</p>
                     )}
                 </div>
-                <div className="w-3/4">
+                <div className="w-2/4 overflow-auto">
                     {/* Resume Viewer */}
-                    <div className="h-3/5 p-6 overflow-auto">
+                    <div className="h-full p-6 overflow-auto">
                         {resumeFeedback ? (
                             <div className="mt-4 p-4 bg-gray-200 rounded">
                                 <h3 className="text-xl font-bold mb-4">Feedback from LLM</h3>
@@ -102,8 +102,8 @@ const ResumeList = () => {
                         )}
 
                     </div>
-                    <Chat className="h-2/5 " resumeText={resumeText}></Chat>
                 </div>
+                    <Chat resumeText={resumeText}></Chat>
             </div>
         </Layout>
     );
