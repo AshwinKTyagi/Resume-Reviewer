@@ -76,12 +76,19 @@ This project allows users to upload their resumes in PDF or DOCX format. The bac
     - `register(user: UserRegister)`: Registers a new user by hashing their password and storing their details in the database.
     - `login(user: UserLogin)`: Logs in a user by verifying their email and password, and returns a JWT token if successful.
     - `protected_route(token: str = Depends(auth_utils.verify_jwt))`: A protected route that requires a valid JWT token to access.
-
 ### Frontend
 
 #### `components/layout.js`
 - Layout component for wrapping pages with a consistent header and footer.
 - Displays navigation links and user information.
+
+#### `components/chat.js`
+- React component for a chat interface.
+- Allows users to interact with the language model in real-time.
+- Sends user messages to the backend and displays responses.
+- Supports both OpenAI and LLAMA models for generating responses.
+- Displays the chat history in a scrollable view.
+- Provides input field and send button for user messages.
 
 #### `index.js`
 - React component for the home page.
@@ -110,9 +117,9 @@ This project allows users to upload their resumes in PDF or DOCX format. The bac
 
 #### `utils/auth.js`
 - Utility functions for handling authentication-related tasks.
-    - `register(userData)`: Registers a new user.
-    - `login(userData)`: Logs in a user and stores the token and user information in local storage.
-    - `logout()`: Logs out a user by removing the token and user information from local storage.
+        - `register(userData)`: Registers a new user.
+        - `login(userData)`: Logs in a user and stores the token and user information in local storage.
+        - `logout()`: Logs out a user by removing the token and user information from local storage.
 
 #### `_app.tsx`
 - Custom App component for Next.js.
