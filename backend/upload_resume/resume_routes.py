@@ -11,7 +11,7 @@ resume_router = APIRouter()
 def get_all_resumes(user_id: Optional[str] = Query(None)):
     try:
         # Print userId for debugging purposes
-        print(user_id)
+        # print(user_id)
         return resume_repository.get_user_resumes(user_id)
     except Exception as e:
         print(str(e))

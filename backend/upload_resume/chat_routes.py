@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Form
 import heapq
 import numpy as np
 from . import resume_repository, process_llm, file_processing
@@ -6,21 +6,21 @@ from . import resume_repository, process_llm, file_processing
 chat_router = APIRouter()
 
 @chat_router.post("/")
-async def chat(file_id: str, message: str, model: str = "openai"):
+async def chat(resume_text: str = Form(...), message: str = Form(...), model: str = "openai"):
     try:
-        resume_text, _ = resume_repository.get_resume_by_file_id(file_id)
-        
         if not resume_text:
             raise HTTPException(status_code=404, detail="File not found")
         
         prompt = f"""
+            You are a professional recruiter reviewing a resume. Have your feedback be succinct and constructive.
+            The resume is as follows:
             Resume: {resume_text}
             
-            User Question: {message}
             Answer:
         """
         
-        response = process_llm.process(prompt, model, "")
+        response = process_llm.process(message, model, prompt)
+        print(response)
         return {"response": response}
     
     except Exception as e:
