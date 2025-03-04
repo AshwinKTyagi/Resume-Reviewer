@@ -22,7 +22,7 @@ def get_all_resumes(user_id: Optional[str] = Query(None)):
 def get_resume(user_id: str = Form(...), file_id: str = Form(...)):
 
     try:
-        resume_text, resume_feedback = resume_repository.get_resume(file_id)
+        resume_text, resume_feedback = resume_repository.get_resume_by_file_id(file_id)
         
         return {"extracted_text": resume_text, "llm_feedback": resume_feedback}
     except Exception as e:
@@ -51,15 +51,15 @@ async def upload_resume(file: UploadFile = File(...), modelOption: Optional[str]
 
     # If user is provided, check if a document exists
     if userId:
-        _, resume_feedback = resume_repository.get_resume(userId, original_filename, txt)
-        if resume_feedback:
-            return {"extracted_text": txt, "llm_feedback": resume_feedback}
+        resume = resume_repository.get_resume(userId, original_filename, txt)
+        if resume:
+            return {"extracted_text": resume[0], "llm_feedback": resume[1]}
     
     llm_feedback = process_llm.process(txt, option=modelOption)
 
     # create embedding and save data
     if userId:
-        
-        resume_repository.save_resume_feedback(userId, original_filename, txt, llm_feedback, file_bytes)
+        embedding = file_processing.generate_embeddings(txt)
+        resume_repository.save_resume_feedback(userId, original_filename, txt, llm_feedback, file_bytes, embedding)
 
     return {"extracted_text": txt, "llm_feedback": llm_feedback}

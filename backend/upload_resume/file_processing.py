@@ -22,5 +22,5 @@ def extract(file_path, file_ext):
 # Generate an embedding for a given text using OpenAI
 def generate_embeddings(text):
     embedding_model = OpenAIEmbeddings()
-    return np.array(embedding_model.embed(text))
+    return embedding_model.embed_documents([text])
 

@@ -8,7 +8,7 @@ chat_router = APIRouter()
 @chat_router.post("/")
 async def chat(file_id: str, message: str, model: str = "openai"):
     try:
-        resume_text, _ = resume_repository.get_resume(file_id)
+        resume_text, _ = resume_repository.get_resume_by_file_id(file_id)
         
         if not resume_text:
             raise HTTPException(status_code=404, detail="File not found")
