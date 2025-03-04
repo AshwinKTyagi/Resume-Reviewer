@@ -8,6 +8,7 @@ export const useAuth = () => {
 
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
+    const [uid, setUid] = useState(null);
 
     useEffect(() => {
         const storedUser = localStorage.getItem("username");

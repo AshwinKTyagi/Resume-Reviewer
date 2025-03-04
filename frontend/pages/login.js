@@ -27,7 +27,7 @@ const Login = () => {
 
     return (
         <Layout>
-            <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 p-4">
+            <div className="h-full flex flex-col items-center justify-center bg-gray-100 p-4">
                 <div className="p-6 bg-white rounded-lg shadow-lg w-96 text-center">
                     <h2 className="text-2xl font-bold mb-4">{isRegister ? "Register" : "Login"}</h2>
 

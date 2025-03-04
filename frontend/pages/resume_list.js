@@ -4,13 +4,13 @@ import { useRouter } from "next/router";
 import ReactMarkdown from "react-markdown"
 import remarkGfm from "remark-gfm"
 import Layout from '../components/layout';
+import Chat from '../components/chat';
 
 const ResumeList = () => {
     const [resumes, setResumes] = useState([]);
     const [selectedResume, setSelectedResume] = useState("");
     const [resumeText, setResumeText] = useState("");
     const [resumeFeedback, setResumeFeedback] = useState("");
-    const router = useRouter();
 
     const fetchResumes = async () => {
         const userId = localStorage.getItem("userId");
@@ -46,6 +46,7 @@ const ResumeList = () => {
             });
 
             // Use the response to set resumeText and resumeFeedback
+            setSelectedResume(resume);
             setResumeText(response.data.extracted_text);
             setResumeFeedback(response.data.llm_feedback);
         } catch (error) {
@@ -55,7 +56,7 @@ const ResumeList = () => {
 
     return (
         <Layout>
-            <div className="flex h-screen">
+            <div className="flex h-full">
                 {/* Sidebar */}
                 <div className="w-1/4 bg-gray-100 p-4">
                     <h2 className="text-lg font-bold mb-4">Resumes</h2>
@@ -77,28 +78,30 @@ const ResumeList = () => {
                         <p className="text-center text-gray-500">No resumes found.</p>
                     )}
                 </div>
+                <div className="w-3/4">
+                    {/* Resume Viewer */}
+                    <div className="h-1/2 p-6 overflow-auto">
+                        {resumeFeedback ? (
+                            <div className="mt-4 p-4 bg-gray-200 rounded">
+                                <h3 className="text-xl font-bold mb-4">Feedback from LLM</h3>
+                                <ReactMarkdown className="prose prose-lg" remarkPlugins={[remarkGfm]}>
+                                    {resumeFeedback}
+                                </ReactMarkdown>
+                            </div>
+                        ) : (
+                            <p className="text-center text-gray-500"></p>
+                        )}
+                        {resumeText ? (
+                            <div className="mt-4 p-4 bg-gray-200 rounded">
+                                <h3 className="text-xl font-bold">Extracted Text</h3>
+                                <pre className="p-2 text-sm bg-gray-300 overflow-auto max-h-80 rounded">{resumeText}</pre>
+                            </div>
+                        ) : (
+                            <p className="text-center text-gray-500">Select a resume to view</p>
+                        )}
 
-                {/* Resume Viewer */}
-                <div className="w-3/4 p-6">
-                    {resumeText ? (
-                        <div className="mt-4 p-4 bg-gray-200 rounded">
-                            <h3 className="text-xl font-bold">Extracted Text</h3>
-                            <pre className="p-2 text-sm bg-gray-300 overflow-auto max-h-80 rounded">{resumeText}</pre>
-                        </div>
-                    ) : (
-                        <p className="text-center text-gray-500">Select a resume to view</p>
-                    )}
-
-                    {resumeFeedback ? (
-                        <div className="mt-4 p-4 bg-gray-200 rounded">
-                            <h3 className="text-xl font-bold mb-4">Feedback from LLM</h3>
-                            <ReactMarkdown className="prose prose-lg" remarkPlugins={[remarkGfm]}>
-                                {resumeFeedback}
-                            </ReactMarkdown>
-                        </div>
-                    ) : (
-                        <p className="text-center text-gray-500"></p>
-                    )}
+                    </div>
+                    <Chat className="h-1/2 " resumeText={resumeText}></Chat>
                 </div>
             </div>
         </Layout>

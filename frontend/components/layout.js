@@ -1,12 +1,12 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useAuth } from "../context/AuthContext";
 
 const Layout = ({ children }) => {
     const { user, logout } = useAuth();
 
     return (
-        <div>
-            <header className="bg-white shadow-md">
+        <div className="flex flex-col h-screen">
+            <header className="bg-white shadow-md flex-shrink-0">
                 <div className="mx-auto flex items-center justify-between p-4">
                     <h1 className="text-3xl font-bold text-gray-900 flex-grow-0">
                         <a href="/" className="hover:text-blue-500">Resume Reviewer</a>
@@ -44,11 +44,11 @@ const Layout = ({ children }) => {
                     </nav>
                 </div>
             </header>
-            <main>
+            <main className="flex-grow overflow-auto">
                 {children}
             </main>
-            <footer>
-                <p>&copy; 2025 Ashwin</p>
+            <footer className="bg-white shadow-md flex-shrink-0 p-1 text-right">
+                <p>&copy; 2025 Ashwin </p>
             </footer>
         </div>
     );
