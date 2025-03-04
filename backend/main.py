@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from upload_resume.resume_routes import resume_router
-from upload_resume.chat_routes import chat_router
+from doc_processing.resume_routes import resume_router
+from doc_processing.chat_routes import chat_router
 from auth.auth_routes import auth_router
 
 app = FastAPI()
