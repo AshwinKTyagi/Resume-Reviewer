@@ -58,7 +58,7 @@ const ResumeList = () => {
         <Layout>
             <div className="flex h-full">
                 {/* Sidebar */}
-                <div className="w-1/4 bg-gray-100 p-4">
+                <div className="w-1/4 bg-gray-100 border p-4 shadow-md">
                     <h2 className="text-lg font-bold mb-4">Resumes</h2>
 
                     {resumes.length > 0 ? (
@@ -80,7 +80,7 @@ const ResumeList = () => {
                 </div>
                 <div className="w-3/4">
                     {/* Resume Viewer */}
-                    <div className="h-1/2 p-6 overflow-auto">
+                    <div className="h-3/5 p-6 overflow-auto">
                         {resumeFeedback ? (
                             <div className="mt-4 p-4 bg-gray-200 rounded">
                                 <h3 className="text-xl font-bold mb-4">Feedback from LLM</h3>
@@ -101,7 +101,7 @@ const ResumeList = () => {
                         )}
 
                     </div>
-                    <Chat className="h-1/2 " resumeText={resumeText}></Chat>
+                    <Chat className="h-2/5 " resumeText={resumeText}></Chat>
                 </div>
             </div>
         </Layout>
