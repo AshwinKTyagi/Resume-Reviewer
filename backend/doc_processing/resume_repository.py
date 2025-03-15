@@ -27,11 +27,23 @@ def save_resume_feedback(user_id: str, file_name: str, resume_text: str, feedbac
         "file_name": file_name,
         "resume_text": resume_text,
         "feedback": feedback,
+        "chat_history": [],
         "embedding": embedding,
         "created_at": datetime.datetime.now(tz=datetime.timezone.utc)
     }
     
     resume_collection.insert_one(document)
+    
+def save_resume_chat_history(file_id: str, chat_history: list[dict]):
+    query = {
+        "_id": ObjectId(file_id)
+    }
+    update = {
+        "$set": {
+            "chat_history": chat_history
+        }
+    }
+    resume_collection.update_one(query, update)
 
 # Function to get all resumes for a user
 def get_user_resumes(user_id: str) -> list[dict]:
@@ -69,3 +81,13 @@ def get_resume_embedding(file_id: str):
     if result:
         return result.get("embedding")
     return None
+
+# Function to get chat history by file_id
+def get_resume_chat_messages(file_id:str):
+    query = {
+        "_id": ObjectId(file_id)
+    }
+    result = resume_collection.find_one(query)
+    if result:
+        return [result.get("chat_history"), result.get("resume_text"), result.get("feedback")]
+    return [[], None, None]

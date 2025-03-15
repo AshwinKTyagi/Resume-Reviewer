@@ -35,7 +35,6 @@ const ResumeList = () => {
 
         // Create a FormData object and append user_id and file_id
         const formData = new FormData();
-        formData.append("user_id", userId);
         formData.append("file_id", resume.id);
 
         try {
@@ -103,7 +102,7 @@ const ResumeList = () => {
 
                     </div>
                 </div>
-                    <Chat resumeText={resumeText}></Chat>
+                    <Chat fileId={selectedResume?.id}></Chat>
             </div>
         </Layout>
     );

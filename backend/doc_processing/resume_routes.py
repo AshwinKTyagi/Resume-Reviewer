@@ -19,7 +19,7 @@ def get_all_resumes(user_id: Optional[str] = Query(None)):
 
 # Endpoint to get a specific resume by user_id and file_id
 @resume_router.post("/file")
-def get_resume(user_id: str = Form(...), file_id: str = Form(...)):
+def get_resume(file_id: str = Form(...)):
 
     try:
         resume_text, resume_feedback = resume_repository.get_resume_by_file_id(file_id)

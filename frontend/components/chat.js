@@ -1,18 +1,31 @@
 import React, { useState, useEffect } from 'react';
 import ReactMarkdown from 'react-markdown';
-import remarkBreaks from 'remark-breaks';
-import remarkGfm from 'remark-gfm';
 import axios from 'axios';
 
-const Chat = ({ resumeText }) => {
+const Chat = ({ fileId }) => {
     const [question, setQuestion] = useState("");
     const [messages, setMessages] = useState([]);
 
-    useEffect(() => {
-        if (resumeText) {
-            setMessages((prev) => [{...prev, type: "bot", text: "Hello! How can I help you today?" }]);
+    const fetchChatHistory = async () => {
+        try {
+            
+            const response = await axios.get(`/api/chat/start-chat?file_id=${fileId}`);
+            if (response.data === 0) {
+                setMessages((prev) => [...prev, { type: "bot", text: "Hello! How can I help you today?" }]);
+            }
+
+            setMessages(response.data);
+            
+        } catch (error) {
+            console.error("Error fetching chat history:", error)
         }
-    }, [resumeText]);
+    }
+
+    useEffect(() => {
+        if (!fileId) return;
+        fetchChatHistory();
+
+    }, [fileId]);
 
     const handleChat = async () => {
         if (!question.trim()) return;
@@ -20,7 +33,7 @@ const Chat = ({ resumeText }) => {
         setMessages((prev) => [...prev, { type: "user", text: question }]);
 
         const formData = new FormData();
-        formData.append("resume_text", resumeText);
+        formData.append("file_id", fileId);
         formData.append("message", question);
 
         const response = await axios.post("/api/chat", formData, {
