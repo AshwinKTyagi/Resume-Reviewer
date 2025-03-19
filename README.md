@@ -128,49 +128,25 @@ This project allows users to upload their resumes in PDF or DOCX format. The bac
 ## Installation and Setup
 
 #### Prerequisites
-- Python 3.8+
-- Node.js 14+
-- npm 6+
+- Docker
+- Docker Compose
 
-#### Backend Setup
+#### Setup using Docker Compose
 1. Clone the repository:
         ```sh
         git clone https://github.com/yourusername/resume-reviewer.git
-        cd resume-reviewer/backend
+        cd resume-reviewer
         ```
-2. Create a virtual environment and activate it:
-        ```sh
-        python -m venv venv
-        source venv/bin/activate  # On Windows use `venv\Scripts\activate`
-        ```
-3. Install the required dependencies:
-        ```sh
-        pip install -r requirements.txt
-        ```
-4. Set up environment variables for OpenAI or if you are hosting LLAMA:
+2. Create a `.env` file in the backend directory and add the following environment variables:
         ```sh
         OPENAI_API_KEY='your_openai_api_key'
         LLAMA_SERVER='http://your-llama-server:11434'
         MONGO_URI='your_mongo_uri'
         JWT_SECRET='your_jwt_secret'
         ```
-5. Run the FastAPI server:
+3. Build and start the containers using Docker Compose:
         ```sh
-        uvicorn main:app --reload
-        ```
-
-#### Frontend Setup
-1. Navigate to the frontend directory:
-        ```sh
-        cd ../frontend
-        ```
-2. Install the required dependencies:
-        ```sh
-        npm install
-        ```
-3. Start the Next.js development server:
-        ```sh
-        npm run dev
+        docker-compose up --build
         ```
 
 Your application should now be running, with the backend accessible at `http://localhost:8000` and the frontend at `http://localhost:3000`.
