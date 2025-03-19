@@ -1,2 +1,3 @@
 .env
 playground-1.mongodb.js
+__pycache__/
