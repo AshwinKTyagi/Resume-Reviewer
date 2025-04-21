@@ -24,10 +24,10 @@ async def root():
 # Endpoint for user registration
 @auth_router.post("/register/")
 async def register(user: UserRegister):
+    print("hit", user)
     # Check if the email is already registered
     if users_collection.find_one({"email": user.email}):
         raise HTTPException(status_code=400, detail="Email already registered")
-    
     # Hash the user's password
     hashed_password = auth_utils.hash_password(user.password)
     

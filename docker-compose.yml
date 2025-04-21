@@ -1,10 +1,11 @@
-version: '3.8'
+
 
 services:
   backend:
     build:
       context: ./backend
       dockerfile: Dockerfile
+    platform: linux/amd64
     ports:
       - "8000:8000"
     env_file:
@@ -13,6 +14,8 @@ services:
       - ./backend:/app
     environment:
       - ENV=development
+    depends_on:
+      - mongodb
 
   frontend:
     build:
@@ -26,5 +29,26 @@ services:
       - ENV=development
     depends_on:
       - backend
+      - mongodb
+
+
+  mongodb:
+    image: mongo:latest
+    container_name: local-mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./mongo-data:/data/db
+    environment:
+      MONGO_INITDB_DATABASE: resume_reviewer
+    command: mongod
+    restart: unless-stopped
+
+volumes:
+  mongo-data:
+  # Uncomment the following lines if you want to use a custom network
+  # custom-network:
+  #   driver: bridge
+  
 
 

@@ -21,7 +21,12 @@ const Login = () => {
                 setMessage(`Welcome, ${response.user.username}!`);
             }
         } catch (error) {
-            setMessage(error.response.data.detail || "An error occurred.");
+            if (error.response && error.response.data) {
+                setMessage(error.response.data.detail || "An error occurred.");
+            } else {
+                setMessage("An error occurred. Please try again:" + error.message);
+            }
+            
         }
     };
 

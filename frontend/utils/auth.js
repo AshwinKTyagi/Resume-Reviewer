@@ -5,6 +5,8 @@ import AuthContext from "../context/AuthContext";
 export const useAuth = () => useContext(AuthContext);
 
 export const register = async (userData) => {
+    console.log("Register payload:", userData);
+    
     return await axios.post("api/auth/register", userData);
 }
 

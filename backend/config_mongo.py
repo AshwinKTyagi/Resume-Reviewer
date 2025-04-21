@@ -16,3 +16,11 @@ db = client.get_database("resume_reviewer")
 users_collection = db.get_collection("auth_collection")
 resume_collection = db.get_collection("resume_collection")
 
+# Ensure the database and collections are created and initialized
+if "resume_reviewer" not in client.list_database_names():
+    # Initialize the database with required collections
+    db.create_collection("auth_collection")
+    db.create_collection("resume_collection")
+    print("Database and collections created successfully.")
+else:
+    print("Database already exists.")

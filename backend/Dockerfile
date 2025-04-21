@@ -4,6 +4,8 @@ WORKDIR /app
 
 RUN apt-get update && apt-get install -y \
     build-essential \
+    cmake \
+    ninja-build \
     python3-dev \
     gcc \
     g++ \
